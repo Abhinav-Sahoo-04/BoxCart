@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="product-details">
+    <div class="product">
+        <div class="product-img">
+            <img src="{{ product.product_image.url }}" alt="">
+        </div>
+        <div class="product-info">
+            <h1>{{product}}</h1>
+            <strong>{{product.price}} $</strong>
+            <p>{{product.description}}</p>
+            <div class="wrap">
+                <small>Color Options</small>
+                <ul class="color-option">
+                    <li><a href="#">Red</a></li>
+                    <li><a href="#">Black</a></li>
+                    <li><a href="#">Blue</a></li>
+                    <li><a href="#">White</a></li>
+                </ul>
+            </div>
+            <div class="wrap">
+
+                <small>Size options</small> 
+                <ul class="size-option">
+                    <li><a href="#">XL</a></li>
+                    <li><a href="#">L</a></li>
+                    <li><a href="#">M</a></li>
+                    <li><a href="#">S</a></li>
+                </ul>
+            </div>
+            {% if product.stock > 1 %}
+            <button type="button">Add to Cart &nbsp;<i class="ri-shopping-cart-2-fill"></i></button>
+            {% else %}
+            <p class="stock-not-available">stock not available</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="comments-section">
+        <h1><i class="ri-chat-1-fill"></i>  Customer reviews</h1>
+        <div class="comments">
+            <div class="comment">
+                <div class="comment-info">
+                    <img src="{% static 'images/icons/cart-black.png' %}" alt="profile">
+                    <strong>Abhinav Sahoo</strong>
+                    <p>this is time</p>
+                </div>
+                <p class="comment-desc">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias pariatur natus maxime adipisci explicabo et, sunt, ducimus iure ab sint distinctio, voluptas temporibus ea exercitationem ad neque ratione in consequuntur!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

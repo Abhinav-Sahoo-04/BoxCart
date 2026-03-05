@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.min.css">
+    <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}">
+</head>
+<body>
+    <div class="floter">
+        <p>Sign up to get 20% discount. <a href="#">Sign up</a> for free.</p> <i class="ri-close-line" id="close"></i>
+    </div>
+    <header class="head-sec">
+        <div class="head-sec-left">
+            <select name="language" id="dropLang">
+                <button>
+                    <selectedcontent></selectedcontent>
+                </button>
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Odia">Odia</option>
+            </select>
+            <select name="currency" id="dropCurr">
+                <option value="USD">USD</option>
+                <option value="RS">RS</option>
+                <option value="YEN">YEN</option>
+            </select>
+        </div>
+        <div class="head-sec-right">
+            <a href="#"><i class="ri-mail-fill"></i>Email</a>
+            <a href="#"><i class="ri-phone-fill"></i>Call</a>
+        </div>
+    </header>
+    <nav class="navbar">
+        <a href="{% url 'home' %}" class="logo">
+            <span>B</span>
+            <img src="{% static 'images/icons/cart-black.png' %}" alt="">
+            <span>X</span>
+            <p>Cart</p>
+        </a>
+        <div class="cat-drop-wrap">
+            <strong id="cat-drop-btn"><i class="ri-menu-line"></i> Category</strong>
+            <ul class="cat-drop" id="cat-drop">
+                {% for i in category %}
+                <li><a href="{% url 'get_by_category' i.slug %}">{{i}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <a id="store" href="{% url 'store' %}">
+            <strong>Store</strong>
+        </a>
+        <form action="#">
+            <input type="search" name="search" class="nav-search" placeholder="Search..." >
+            <button type="submit"><i class="ri-search-line"></i></button>
+        </form>
+        <div class="login">
+            <small>Welcome Guest !</small>
+            <span><a href="#">Sign in</a> | <a href="#">Register</a></span>
+        </div>
+        <a href="#" class="cart">
+            <i class="ri-shopping-cart-2-fill"></i>
+            <span class="item-count">0</span>
+        </a>
+
+    </nav>
+    <!-- the content start here -->
+    {% block content %}
+
+    {% endblock %}
+
+    <!-- the footer start here -->
+
+    <footer class="footer">
+        <!-- <img src="{% static 'signature/sign.png' %}" alt="" id="sign"> -->
+        <div class="footer-info">
+            <div class="social-handel">
+                <a href="#"><i class="ri-instagram-fill"></i></a>
+                <a href="#"><i class="ri-linkedin-box-fill"></i></a>
+                <a href="#"><i class="ri-github-fill"></i></a>
+            </div>
+            <div class="contact-info">
+                <a href="#">Home</a>
+                |<a href="#">About</a>
+                |<a href="#">Team</a>
+                |<a href="#">Service</a>
+                |<a href="#">Contact</a>
+            </div>
+            <span><small>Made with <i class="ri-poker-hearts-fill"></i></small> by  <em>Abhinav Sahoo</em></span>
+        </div>
+    </footer>
+    <script src="{% static 'scripts/script.js' %}"></script>
+
+</body>
+</html>

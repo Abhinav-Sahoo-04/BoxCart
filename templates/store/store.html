@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+<title>{{title}}</title>
+<main class="store">
+    <h1><i class="ri-store-2-fill"></i> Store</h1>
+    <div class="store-container">
+        <div class="store-sidebar">
+           <div class="side-cart">
+            <strong>Category <i class="ri-arrow-down-s-line" id="category-close"></i></strong>
+            <ul class="category-list">
+                {% for i in category %}
+                <li><a href="{% url 'get_by_category' i.slug %}">{{ i.category_name }}</a></li>
+                {% endfor %}
+            </ul>
+            <strong>Size <i class="ri-arrow-down-s-line" id="size-close"></i></strong>
+            <ul class="size-list">
+                <li><a href="#">XXXL</a></li>
+                <li><a href="#">XXL</a></li>
+                <li><a href="#">XL</a></li>
+                <li><a href="#">L</a></li>
+                <li><a href="#">M</a></li>
+                <li><a href="#">S</a></li>
+            </ul>
+            <strong>Price Range <i class="ri-arrow-down-s-line" id="price-close"></i> </strong>
+            <form action="#">
+                <div class="form-container">
+                    <div class="form-group">
+                    <label for="idMin">Min</label>
+                    <select name="Min" id="idMin">
+                        <option value="0" selected>0$</option>
+                        <option value="10" >10$</option>
+                        <option value="100" >100$</option>
+                        <option value="500" >500$</option>
+                        <option value="1000" >1000$</option>
+                        <option value="5000" >5000$</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="idMax">Max</label>
+                    <select name="Max" id="idMax">
+                        <option value="100" selected>100$</option>
+                        <option value="500">500$</option>
+                        <option value="1000">1000$</option>
+                        <option value="5000">5000$</option>
+                        <option value="10000">10000$</option>
+                    </select>
+                </div>
+                </div>
+                <button type="submit">Apply</button>
+            </form>
+           </div>
+
+        </div>
+        <div class="store-items-container">
+            {%  if count > 1 %}
+            <strong>{{count}} Items</strong>
+            {% else %}
+            <strong>{{count}} Item</strong>
+            {% endif %}
+            <div class="store-items-wrap">
+                {% for prod in product %}
+                <div class="card">
+                <img src="{{ prod.product_image.url }}" alt="">
+                <div class="card-info">
+                   <a href="{% url 'product_details' prod.category prod.slug %}"> <h4>{{prod.product_name}}</h4></a>
+                    <small>{{prod.price}}$</small>
+                </div>
+                <button type="button"> Add to Cart </button>
+                <!-- <small class="trend">trend</small> -->
+            </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

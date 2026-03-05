@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <title>{{title}}</title>
+    <main class="banner">
+        <img src="{% static 'images/banner/cover2.jpg' %}" alt="">
+        <div class="banner-info">
+            <h1>find the items that matches your style    <i class="ri-bard-fill"></i></h1>
+            <p>Step into a world of endless choices, unbeatable deals, and hand‑picked treasures — explore our store today and find something you’ll love.</p>
+            <a href="#" class="banner-link">Shop Now</a>
+
+            <div class="counter"></div>
+        </div>
+    </main>
+    <div class="popular-container">
+        <span>
+            <h2><i class="ri-fire-fill"></i>Popular </h2>
+            <a href="#">view all</a>
+        </span>
+        <div class="popular">
+            {% for prod in product %}
+            <div class="card">
+                <img src="{{ prod.product_image.url }}" alt="">
+                <div class="card-info">
+                    <h4>{{prod.product_name}}</h4>
+                    <small>{{prod.price}}$</small>
+                </div>
+                <small class="trend">trend</small>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    {% endblock %}
