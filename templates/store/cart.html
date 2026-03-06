@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="cart-container">
+    <div class="cart-page">
+        <table>
+            <tr>
+                <th class="p-name">PRODUCT</th>
+                <th class="p-qunatity">QUANTITY</th>
+                <th class="p-price">PRICE</th>
+            </tr>
+            <tr >
+                <td class="pi-name">
+                    <img src="{% static 'images/items/watch.jpeg' %}" alt="">
+                    <div class="pi-info-box">
+                        <h3>this is product info</h3>
+                        <small>this is info small</small>
+                    </div>
+                </td>
+                <td class="pi-qunatity">
+                    <div class="pi-q-count">
+                        <button><strong><i class="ri-subtract-line"></i></strong></button> 
+                        <span id="qunatity">0</span>
+                        <button><strong><i class="ri-add-large-fill"></i></strong></button> 
+                    </div>
+                </td>
+                <td class="pi-price">
+                    <div class="pi-p-box">
+                        <strong>2000</strong>
+                        <button>Remove</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="cart-payment"></div>
+</div>
+{% endblock %}

@@ -741,3 +741,108 @@ background-color: #f1f2f2;
   padding: 10px 20px;
   color: red;
 }
+/* Cart */
+.cart-container{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  padding: 100px;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+}
+.cart-page{
+  height: fit-content;
+  width: 60vw  ;
+  padding: 20px;  
+  background-color: white;
+  border-radius: 5px; 
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+.cart-page table{
+  width: 100%;  
+  border-collapse: separate;
+  border-spacing: 20px;
+}
+.cart-page table th{
+  color: grey; 
+  padding-bottom: 20px;
+}
+
+.cart-page table .p-name{
+  width: 35%;
+  text-align: left;
+  border: transparent;
+}
+.cart-page table .pi-name{
+  display: flex;
+  gap: 10px;
+}
+.cart-page table .pi-name .pi-info-box small{
+  color: grey;
+}
+.cart-page table .pi-name img{
+  height: 50px;
+  width: 60px;
+  background-size: cover;
+}
+.cart-page table .p-qunatity{
+  width: 25%;
+  text-align: left;
+}
+
+.cart-page table .pi-qunatity .pi-q-count{
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 3px;
+  border: 1px solid var(--violet);
+}
+.cart-page table .pi-qunatity .pi-q-count button{
+  padding: 5px 15px;
+  height: 100%;
+  background-color: white;
+  border: none;
+  font-size: var(--font-12);
+  flex-shrink: 0;
+}
+.cart-page table .pi-qunatity .pi-q-count button:active{
+  border: none;
+}
+.cart-page table .pi-qunatity .pi-q-count button:hover{
+  color: var(--violet);
+}
+.cart-page table .pi-qunatity .pi-q-count span{
+  border-left: 1px solid var(--violet);
+  border-right: 1px solid var(--violet);
+  padding: 5px 15px;
+}
+.cart-page table .p-price{
+  width: 30%;
+  text-align: left;
+}
+.cart-page table .pi-price .pi-p-box{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  
+}
+.cart-page table .pi-price .pi-p-box button{
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: var(--red);
+  color: white;
+  border: none;
+  cursor: pointer;
+  
+}
+.cart-payment{
+  height: fit-content;
+  width: fit-content  ;
+  padding: 30px;  
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+
+}
