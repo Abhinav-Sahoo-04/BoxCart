@@ -26,20 +26,3 @@ let cat_drop_btn = document.querySelector("#cat-drop-btn");
 cat_drop_btn.addEventListener("click", () => {
   document.querySelector("#cat-drop").classList.toggle("cat-show");
 });
-
-function incrementQunatity (id){
-  let ele=document.querySelector(`#${id}`).innerText;
-  console.log(ele);
-  console.log("hello");
-  
-}
-
-try{
- let plus=document.querySelector("#plus")
- console.log(plus);
- plus.addEventListener("click",()=>{
-  incrementQunatity(qunatity)
- })
-}catch{
-  console.log("error due to btn"); 
-}

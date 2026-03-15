@@ -6,38 +6,54 @@
         <div class="product-img">
             <img src="{{ product.product_image.url }}" alt="">
         </div>
-        <div class="product-info">
-            <h1>{{product}}</h1>
-            <strong>{{product.price}} $</strong>
-            <p>{{product.description}}</p>
-            <div class="wrap">
-                <small>Color Options</small>
-                <ul class="color-option">
-                    <li><a href="#">Red</a></li>
-                    <li><a href="#">Black</a></li>
-                    <li><a href="#">Blue</a></li>
-                    <li><a href="#">White</a></li>
-                </ul>
-            </div>
-            <div class="wrap">
+        <form action="{% url 'add_cart' product.id  %}" method="POST">
+            {% csrf_token %}
+            <div class="product-info">
+                <h1>{{product}}</h1>
+                <strong>{{product.price}} $</strong>
+                <p>{{product.description}}</p>
+                <div class="wrap">
+                    {% if variation_color %}
+                    <small>Color Options</small>
+                    <ul class="color-option">
+                        {% for i in variation_color %}
+                        {% if forloop.first %}
+                        <li class="color selected-color">{{i}}</li>
+                        {% else %}
+                        <li class="color">{{i}}</li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <input type="hidden"  id="txtColor" name="color">
 
-                <small>Size options</small> 
-                <ul class="size-option">
-                    <li><a href="#">XL</a></li>
-                    <li><a href="#">L</a></li>
-                    <li><a href="#">M</a></li>
-                    <li><a href="#">S</a></li>
-                </ul>
+                <div class="wrap">
+                    {% if variation_size %}
+                    <small>Size options</small>
+                    <ul class="size-option">
+                        {% for i in variation_size %}
+                        {% if forloop.first %}
+                        <li class="size selected-size">{{i}}</li>
+                        {% else %}
+                        <li class="size">{{i}}</li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <input type="hidden"  id="txtSize" name="size">
+                {% if product.stock > 1 %}
+                <button type="submit">Add to Cart &nbsp;<i
+                            class="ri-shopping-cart-2-fill"></i></button>
+                {% else %}
+                <p class="stock-not-available">stock not available</p>
+                {% endif %}
             </div>
-            {% if product.stock > 1 %}
-            <button type="button">Add to Cart &nbsp;<i class="ri-shopping-cart-2-fill"></i></button>
-            {% else %}
-            <p class="stock-not-available">stock not available</p>
-            {% endif %}
-        </div>
+        </form>
     </div>
     <div class="comments-section">
-        <h1><i class="ri-chat-1-fill"></i>  Customer reviews</h1>
+        <h1><i class="ri-chat-1-fill"></i> Customer reviews</h1>
         <div class="comments">
             <div class="comment">
                 <div class="comment-info">
@@ -46,10 +62,48 @@
                     <p>this is time</p>
                 </div>
                 <p class="comment-desc">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias pariatur natus maxime adipisci explicabo et, sunt, ducimus iure ab sint distinctio, voluptas temporibus ea exercitationem ad neque ratione in consequuntur!
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias pariatur natus maxime adipisci
+                    explicabo et, sunt, ducimus iure ab sint distinctio, voluptas temporibus ea exercitationem ad neque
+                    ratione in consequuntur!
                 </p>
             </div>
         </div>
     </div>
 </div>
+<script>
+    document.querySelector('#txtColor').value=document.querySelector('.selected-color').textContent
+    document.querySelector('#txtSize').value=document.querySelector('.selected-size').textContent
+    function removeColor() {
+        let colors = document.querySelectorAll('.color')
+        colors.forEach(col => {
+            col.classList.remove('selected-color')
+        })
+    }
+    function removeSize() {
+        let sizes = document.querySelectorAll('.size')
+        sizes.forEach(size => {
+            size.classList.remove('selected-size')
+        })
+    }
+
+    let colors = document.querySelectorAll('.color')
+    colors.forEach(col => {
+        col.addEventListener("click", () => {
+            removeColor()
+            col.classList.add('selected-color')
+            document.querySelector('#txtColor').value=col.textContent;
+        })
+    })
+
+
+    let sizes = document.querySelectorAll('.size')
+    sizes.forEach(size => {
+        size.addEventListener("click", () => {
+            removeSize()
+            size.classList.add('selected-size')
+            document.querySelector('#txtSize').value=size.textContent;
+        })
+    })
+
+</script>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from store.models import Product
+from cart.models import Cart
 def home(request):
     product=Product.objects.all().filter(is_available=True)
     context={

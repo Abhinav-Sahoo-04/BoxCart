@@ -20,7 +20,10 @@
         <div class="popular">
             {% for prod in product %}
             <div class="card">
-                <img src="{{ prod.product_image.url }}" alt="">
+                <a href="{% url 'product_details' prod.category prod.slug %}">
+
+                    <img src="{{ prod.product_image.url }}" alt="">
+                </a>
                 <div class="card-info">
                     <a href="{% url 'product_details' prod.category prod.slug %}"><h4>{{prod.product_name}}</h4></a>
                     <small>{{prod.price}}$</small>

@@ -1,3 +1,13 @@
 from django.contrib import admin
 
+from cart.models import Cart, CartItem
+
+class CartAdmin(admin.ModelAdmin):
+    list_display=('cart_id','date_added')
+
+class CartitemAdmin(admin.ModelAdmin):
+    list_display=('product','quantity','is_active',)
+
 # Register your models here.
+admin.site.register(Cart,CartAdmin)
+admin.site.register(CartItem,CartitemAdmin)

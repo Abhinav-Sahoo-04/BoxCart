@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.9.1/fonts/remixicon.min.css">
     <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}">
 </head>
+
 <body>
     <div class="floter">
         <p>Sign up to get 20% discount. <a href="#">Sign up</a> for free.</p> <i class="ri-close-line" id="close"></i>
@@ -44,17 +46,18 @@
         <div class="cat-drop-wrap">
             <strong id="cat-drop-btn"><i class="ri-menu-line"></i> Category</strong>
             <ul class="cat-drop" id="cat-drop">
+                <li><a href="{% url 'store' %}">All Categories</a></li>
                 {% for i in category %}
                 <li><a href="{% url 'get_by_category' i.slug %}">{{i}}</a></li>
                 {% endfor %}
             </ul>
         </div>
-        
+
         <a id="store" href="{% url 'store' %}">
             <strong>Store</strong>
         </a>
-        <form action="#">
-            <input type="search" name="search" class="nav-search" placeholder="Search..." >
+        <form action="{% url 'search' %}"  method="GET">
+            <input type="search" name="keyword" required class="nav-search" placeholder="Search...">
             <button type="submit"><i class="ri-search-line"></i></button>
         </form>
         <div class="login">
@@ -63,7 +66,7 @@
         </div>
         <a href="{% url 'cart' %}" class="cart">
             <i class="ri-shopping-cart-2-fill"></i>
-            <span class="item-count">0</span>
+            <span class="item-count">{{ cart_count }}</span>
         </a>
 
     </nav>
@@ -89,10 +92,11 @@
                 |<a href="#">Service</a>
                 |<a href="#">Contact</a>
             </div>
-            <span><small>Made with <i class="ri-poker-hearts-fill"></i></small> by  <em>Abhinav Sahoo</em></span>
+            <span><small>Made with <i class="ri-poker-hearts-fill"></i></small> by <em>Abhinav Sahoo</em></span>
         </div>
     </footer>
     <script src="{% static 'scripts/script.js' %}"></script>
 
 </body>
+
 </html>

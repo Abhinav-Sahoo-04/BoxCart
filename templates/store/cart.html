@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<title>{{title}}</title>
 <div class="cart-container">
+    {% if not cart_items %}
+    <div class="cart-not-found">
+        <p>no item in cart</p>
+        <a href="{% url 'store' %}"><button>Continue Shoping</button></a>
+    </div>
+    {% else %}
     <div class="cart-page">
         <table>
             <tr>
@@ -9,30 +16,78 @@
                 <th class="p-qunatity">QUANTITY</th>
                 <th class="p-price">PRICE</th>
             </tr>
-            <tr >
+            {% for cart_item in cart_items %}
+            <tr>
                 <td class="pi-name">
-                    <img src="{% static 'images/items/watch.jpeg' %}" alt="">
+                    <a href="{% url 'product_details' cart_item.product.category cart_item.product.slug %}">
+                        <img src="{{ cart_item.product.product_image.url }}" alt="">
+                    </a>
                     <div class="pi-info-box">
-                        <h3>this is product info</h3>
-                        <small>this is info small</small>
+                        <a href="{% url 'product_details' cart_item.product.category cart_item.product.slug %}">
+                            <h3>{{ cart_item.product.product_name }}</h3>
+                        </a>
+
+                        {% if cart_item.variation.all %}
+                        <span>
+                            {% for item in cart_item.variation.all %}
+                            <small>{{ item.variation_category }} : {{ item.variation_value }}</small><br>
+                            {% endfor %}
+                        </span>
+                        {% endif %}
                     </div>
                 </td>
                 <td class="pi-qunatity">
                     <div class="pi-q-count">
-                        <button><strong><i class="ri-subtract-line"></i></strong></button> 
-                        <span id="qunatity">0</span>
-                        <button><strong><i class="ri-add-large-fill"></i></strong></button> 
+                        <a href="{% url 'remove_cart' cart_item.product.id cart_item.id %}"><button id="minus"><strong><i
+                                        class="ri-subtract-line"></i></strong></button></a>
+                        <span id="quantity">{{ cart_item.quantity }}</span>
+                        <form action="{% url 'add_cart' cart_item.product.id %}" method="POST">
+                            {% csrf_token %}
+                            {% for item in cart_item.variation.all %}
+                            <input type="hidden" name="{{ item.variation_category }}" value="{{ item.variation_value }}">
+                            {% endfor %}
+                            <button id="plus" type="submit"><strong> <i
+                                        class="ri-add-large-fill"></i></strong></button></a>
+                        </form>
                     </div>
                 </td>
                 <td class="pi-price">
                     <div class="pi-p-box">
-                        <strong>2000</strong>
-                        <button>Remove</button>
+                        <strong>
+                            <p>${{ cart_item.sub_total }}</p>
+                            <small>${{ cart_item.product.price }} each</small>
+                        </strong>
+                        <a href="{% url 'remove_cart_item' cart_item.product.id cart_item.id %}" onclick="confirm('Do you want to remove the items ?')"><button onclick="areYouSure()" >Remove</button></a>
                     </div>
                 </td>
             </tr>
+            {% endfor %}
         </table>
+
     </div>
-    <div class="cart-payment"></div>
+    <div class="cart-payment">
+        <span>
+            <h3>Total Price</h3>
+            <p>${{total}}</p>
+        </span>
+        <span>
+            <h3>Tax</h3>
+            <p>${{ tax }}</p>
+        </span>
+        <span>
+            <h3>Total</h3>
+            <p>${{ grand_total }}</p>
+        </span>
+        <div class="payment-gateways">
+            <img src="{% static 'images/payment2.png' %}" alt="">
+        </div>
+        <div class="payment-btn">
+            <button><strong>Checkout</strong></button>
+            <button id="continue"><strong>Continue Shoping</strong>
+            </button>
+        </div>
+    </div>
+    {% endif %}
 </div>
+
 {% endblock %}
