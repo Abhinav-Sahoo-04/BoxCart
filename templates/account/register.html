@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<section class="register-page">
+    {% include 'alerts.html' %}
+    <form action="{% url 'register' %}" method="POST" class="register">
+        {% csrf_token %}
+        <div class="register-icon">
+            <img src="{% static 'images/icons/cart-black.png' %}" alt="">
+        </div>
+        <h3>Sign Up</h3>
+        <div class="input-container">
+            <div class="input-grp">
+                <label for="txtFname">First name</label>
+                {{form.first_name}}
+            </div>
+            <div class="input-grp">
+                <label for="txtLname">Last name</label>
+                {{form.last_name}}
+
+            </div>
+
+        </div>
+        <div class="email-container">
+            <label for="midEmail">Email</label>
+            {{form.email}}
+            <small>We'll never share your email with anyone</small>
+            <span>
+
+                <small><strong>{{form.email.errors}}</strong></small>
+            </span>
+        </div>
+        <div class="email-container">
+            <label for="pwPass1">Phone Number</label>
+            {{form.phone_number}}
+        </div>
+
+        <div class="input-container">
+            <div class="input-grp">
+                <label for="pwPass1">Password</label>
+                {{form.password}}
+            </div>
+            <div class="input-grp">
+                <label for="pwPass2">Confirm password</label>
+                {{form.confirm_password}}
+            </div>
+        </div>
+        <small><strong>
+                {{form.non_field_errors}}
+            </strong></small>
+
+
+        <button type="submit"><strong>Register</strong></button>
+    </form>
+    <small>Have an account? <a href="{% url 'login' %}">log In</a></small>
+</section>
+
+{% endblock %}

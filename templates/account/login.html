@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+{% if request.GET.command == 'verification' %}
+<section class="login-container">
+    <span class="verification">
+        Thank you for registering with us. We have sent you a verification link to your email [{{request.GET.email}}]
+        <br>
+        <p>Already verified ? <a href="{% url 'login' %}">log In</a></p>
+    </span>
+</section>
+{% else %}
+<section class="login-container">
+    {% include 'alerts.html' %}
+    <form class="login-form" action="{% url 'login' %}" method="POST" >
+        {% csrf_token %}
+        <div class="register-icon">
+            <img src="{% static 'images/icons/cart-black.png' %}" alt="">
+        </div>
+        <h3>Sign In</h3>
+        <input type="email" name="email" id="email" placeholder="Enter Your Email here" required>
+        <input type="password" name="password" id="password" placeholder="Enter your password" required>
+        <button type="submit"><strong>Log In</strong></button>
+    </form>
+
+    <small>Dont have an account ? <a href="{% url 'register' %}">Sign Up</a></small>
+</section>
+{% endif %}
+{% endblock %}
