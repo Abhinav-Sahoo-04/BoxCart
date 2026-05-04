@@ -1,4 +1,7 @@
 from django.shortcuts import redirect, render
+import requests
+from cart.models import Cart, CartItem
+from cart.views import _cart_id
 from .forms import RegistrationForm
 from .models import Account
 from django.contrib import messages
@@ -19,9 +22,54 @@ def login(request):
         password=request.POST['password']
         user=auth.authenticate(username=email,password=password)
         if user is not None:
+            try :
+                cart=Cart.objects.get(cart_id=_cart_id(request))
+                is_cart_item_exist=CartItem.objects.filter(cart=cart).exists()
+                if is_cart_item_exist:
+                    cart_items=CartItem.objects.filter(cart=cart)
+                    #Getting the variation by id
+                    product_variations=[]
+                    for item in cart_items:
+                        var=item.variation.all()
+                        product_variations.append(list(var))
+                    
+                    #Getting existing variations
+                    ex_var_list=[]
+                    id=[]
+                    cart_items=CartItem.objects.filter(user=user)
+                    for item in cart_items:
+                        existing_var=item.variation.all()
+                        ex_var_list.append(list(existing_var))
+                        id.append(item.id)
+                    
+                    #now checking the already existing variation exist for user or not
+                    for pr in product_variations:
+                        if pr in ex_var_list:
+                            index_id=ex_var_list.index(pr)
+                            item_id=id[index_id]
+                            item=CartItem.objects.get(id=item_id)
+                            item.quantity+=1
+                            item.user=user
+                            item.save()
+                        else:
+                            cart_items=CartItem.objects.filter(cart=cart)
+                            for item in cart_items:
+                                item.user=user
+                                item.save()
+            except:
+                pass
             auth.login(request,user)
             messages.success(request,"You'r now logged in")
-            return redirect('dashboard')
+            url=request.META.get('HTTP_REFERER')
+            try:
+                query=requests.utils.urlparse(url).query
+                print('---->Query---->',query)
+                params=dict(x.split('=') for x in query.split('&'))
+                if 'next' in params:
+                    nextPage=params['next']
+                    return redirect(nextPage)
+            except:
+                return redirect('dashboard')
         else:
             messages.error(request,"Invalid Username and passeword !")
             return redirect('login')

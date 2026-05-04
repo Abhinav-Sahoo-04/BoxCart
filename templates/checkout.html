@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<title>{{title}}</title>
+<form class="checkout-container" action="#" method="POST">
+    {% csrf_token %}
+    <div  class="checkout-form">
+        <h3>Billing Address</h3>
+        <div class="form-grp-wrap">
+            <div class="form-grp">
+                <label for="first_name">Firts name</label>
+                <input type="text" placeholder="Enter your first name" id="fisrt_name" name="first_name" required>
+            </div>
+            <div class="form-grp">
+                <label for="last_name">Last name</label>
+                <input type="text" placeholder="Enter your last name" id="last_name" name="last_name" required>
+            </div>
+        </div>
+        <div class="form-grp-whole">
+            <label for="email">Email</label>
+            <input type="email" placeholder="Enter your email " required id="email" name="email">
+        </div>
+        <div class="form-grp-whole">
+            <label for="phone_number">Phone Number</label>
+            <input type="text" placeholder="Enter your Phone numberS " required id="phone_number" name="phone_number">
+        </div>
+        <div class="form-grp-whole">
+            <label for="add1">Address lane 1</label>
+            <input type="text" placeholder="Enter your Address 1 " required id="add1" name="add1">
+        </div>
+        <div class="form-grp-whole">
+            <label for="add2">Address lane 2</label>
+            <input type="text" placeholder="Enter your Address 2 " required id="add2" name="add2">
+        </div>
+        <div class="form-grp-wrap">
+            <div class="form-grp-3">
+                <label for="city">City</label>
+                <input type="text" name="city" id="city" placeholder="City" required>
+            </div>
+            <div class="form-grp-3">
+                <label for="state">State</label>
+                <input type="text" name="state" id="state" placeholder="State" required>
+            </div>
+            <div class="form-grp-3">
+                <label for="country">Country</label>
+                <input type="text" name="country" id="country" placeholder="Country" required>
+            </div>
+        </div>
+        <div class="form-grp">
+            <label for="note">Order Note</label>
+            <textarea name="note" id="note"
+                placeholder="If You have any additional requirment , mention here !"></textarea>
+        </div>
+    </div>
+    <div class="checkout-review">
+        <div class="review-head">
+            <div class="r-product">Product</div>
+            <div class="r-quantity">Qunatity</div>
+            <div class="r-price">Price</div>
+        </div>
+        {% for i in cart_items %}
+        <div class="product-checkout-review">
+            <div class="r-p-product">
+                <img src="{{ i.product.product_image.url }}" alt="">
+                <div class="product-i">
+                    <h4>{{ i.product.product_name }}</h4>
+                    {% if i.variation.all %}
+                    <span>
+                        {% for item in i.variation.all %}
+                        <small>{{ item.variation_category }} : {{ item.variation_value }}</small><br>
+                        {% endfor %}
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="r-p-quantity"><small>{{ i.quantity }}</small></div>
+            <div class="r-p-price"><small>{{i.sub_total}}</small></div>
+        </div>
+        {% endfor %}
+        <div class="check-btn-wrap">
+            <button type="submit" class="place-order check-btn">Place Order</button>
+            <a href="{% url 'home' %}" class="continue-shoping check-btn">Continue Shoping</a>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
