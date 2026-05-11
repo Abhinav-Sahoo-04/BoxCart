@@ -12,6 +12,25 @@
                 <h1>{{product}}</h1>
                 <strong>{{product.price}} $</strong>
                 <p>{{product.description}}</p>
+                <br>
+                <!-- <span>{{product.averageReview}} </span> -->
+                <span>
+                    <i class="fa-{% if product.averageReview >= 1 %}solid fa-star{% elif product.averageReview >= 0.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                        style="color:#ffd43b;"></i>
+
+                    <i class="fa-{% if product.averageReview >= 2 %}solid fa-star{% elif product.averageReview >= 1.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                        style="color:#ffd43b;"></i>
+
+                    <i class="fa-{% if product.averageReview >= 3 %}solid fa-star{% elif product.averageReview >= 2.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                        style="color:#ffd43b;"></i>
+
+                    <i class="fa-{% if product.averageReview >= 4 %}solid fa-star{% elif product.averageReview >= 3.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                        style="color:#ffd43b;"></i>
+
+                    <i class="fa-{% if product.averageReview >= 5 %}solid fa-star{% elif product.averageReview >= 4.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                        style="color:#ffd43b;"></i>
+                </span>
+                <span>{{review_count}} reviews</span>
                 <div class="wrap">
                     {% if variation_color %}
                     <small>Color Options</small>
@@ -26,7 +45,7 @@
                     </ul>
                     {% endif %}
                 </div>
-                <input type="hidden"  id="txtColor" name="color">
+                <input type="hidden" id="txtColor" name="color">
 
                 <div class="wrap">
                     {% if variation_size %}
@@ -42,10 +61,9 @@
                     </ul>
                     {% endif %}
                 </div>
-                <input type="hidden"  id="txtSize" name="size">
+                <input type="hidden" id="txtSize" name="size">
                 {% if product.stock > 1 %}
-                <button type="submit">Add to Cart &nbsp;<i
-                            class="ri-shopping-cart-2-fill"></i></button>
+                <button type="submit">Add to Cart &nbsp;<i class="ri-shopping-cart-2-fill"></i></button>
                 {% else %}
                 <p class="stock-not-available">stock not available</p>
                 {% endif %}
@@ -53,26 +71,110 @@
         </form>
     </div>
     <div class="comments-section">
-        <h1><i class="ri-chat-1-fill"></i> Customer reviews</h1>
+        {% include 'alerts.html' %}
+        <h1>Submit your review here !</h1>
+        <form action="{% url 'submit_review' product.id  %}" method="POST">
+            {% csrf_token %}
+            <strong>How do you rate this product ?</strong>
+            <div class="comment-rating">
+                <input type="radio" name="rating" id="rating10" value="5" required><label for="rating10"
+                    title="5"></label>
+                <input type="radio" name="rating" id="rating9" value="4.5" required><label class="half" for="rating9"
+                    title="4.5"></label>
+                <input type="radio" name="rating" id="rating8" value="4" required><label for="rating8"
+                    title="4"></label>
+                <input type="radio" name="rating" id="rating7" value="3.5" required><label class="half" for="rating7"
+                    title="3.5"></label>
+                <input type="radio" name="rating" id="rating6" value="3" required><label for="rating6"
+                    title="3"></label>
+                <input type="radio" name="rating" id="rating5" value="2.5" required><label class="half" for="rating5"
+                    title="2.5"></label>
+                <input type="radio" name="rating" id="rating4" value="2" required><label for="rating4"
+                    title="2"></label>
+                <input type="radio" name="rating" id="rating3" value="1.5" required><label class="half" for="rating3"
+                    title="1.5"></label>
+                <input type="radio" name="rating" id="rating2" value="1" required><label for="rating2"
+                    title="1"></label>
+                <input type="radio" name="rating" id="rating1" value="0.5" required><label class="half" for="rating1"
+                    title="0.5"></label>
+            </div>
+            <label for="subject">Review Title : </label>
+            <input type="text" class="comment-review" name="subject" id="subject">
+            <label for="review">Review : </label>
+            <textarea name="review" id="review" class="comment-review"></textarea>
+            {% if user.is_authenticated %}
+            {% if orderproduct %}
+            <button type="submit"> Submit review </button>
+            {% else %}
+            <p>You must purches the product to post a review . </p>
+            {% endif %}
+
+            {% else %}
+            <p>Login required to post review ! <span><a href="{% url 'login' %}">Log in</a></span></p>
+            {% endif %}
+        </form>
+        <h1><i class="ri-chat-1-fill"></i> Customer reviews ({{review_count}})</h1>
+        <div class="review-count">
+            <span>{{product.averageReview}} </span>
+        <span>
+            <i class="fa-{% if product.averageReview >= 1 %}solid fa-star{% elif product.averageReview >= 0.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                style="color:#ffd43b;"></i>
+
+            <i class="fa-{% if product.averageReview >= 2 %}solid fa-star{% elif product.averageReview >= 1.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                style="color:#ffd43b;"></i>
+
+            <i class="fa-{% if product.averageReview >= 3 %}solid fa-star{% elif product.averageReview >= 2.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                style="color:#ffd43b;"></i>
+
+            <i class="fa-{% if product.averageReview >= 4 %}solid fa-star{% elif product.averageReview >= 3.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                style="color:#ffd43b;"></i>
+
+            <i class="fa-{% if product.averageReview >= 5 %}solid fa-star{% elif product.averageReview >= 4.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                style="color:#ffd43b;"></i>
+        </span>
+        </div>
         <div class="comments">
+            {% if review %}
+            {% for i in review %}
             <div class="comment">
                 <div class="comment-info">
                     <img src="{% static 'images/icons/cart-black.png' %}" alt="profile">
-                    <strong>Abhinav Sahoo</strong>
-                    <p>this is time</p>
+                    <strong>{{i.user.full_name}}</strong>
+                    <p>{{i.updated_at}}</p>
                 </div>
-                <p class="comment-desc">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias pariatur natus maxime adipisci
-                    explicabo et, sunt, ducimus iure ab sint distinctio, voluptas temporibus ea exercitationem ad neque
-                    ratione in consequuntur!
-                </p>
+                <span>
+                    <i class="fa-{% if i.rating >= 1 %}solid fa-star{% elif i.rating >= 0.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                        style="color:#ffd43b;"></i>
+
+                    <i class="fa-{% if i.rating >= 2 %}solid fa-star{% elif i.rating >= 1.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                        style="color:#ffd43b;"></i>
+
+                    <i class="fa-{% if i.rating >= 3 %}solid fa-star{% elif i.rating >= 2.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                        style="color:#ffd43b;"></i>
+
+                    <i class="fa-{% if i.rating >= 4 %}solid fa-star{% elif i.rating >= 3.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                        style="color:#ffd43b;"></i>
+
+                    <i class="fa-{% if i.rating >= 5 %}solid fa-star{% elif i.rating >= 4.5 %}solid fa-star-half-stroke{% else %}regular fa-star{% endif %}"
+                        style="color:#ffd43b;"></i>
+                </span>
+                <br>
+
+                <span class="comment-desc">
+                    <strong>{{i.subject}}</strong>
+                    <p>{{i.review}}</p>
+                </span>
             </div>
+            {% endfor %}
+            {% else %}
+            <p>No Reviews yet</p>
+            {% endif %}
         </div>
     </div>
 </div>
 <script>
-    document.querySelector('#txtColor').value=document.querySelector('.selected-color').textContent
-    document.querySelector('#txtSize').value=document.querySelector('.selected-size').textContent
+    document.querySelector('#txtColor').value = document.querySelector('.selected-color').textContent
+    document.querySelector('#txtSize').value = document.querySelector('.selected-size').textContent
     function removeColor() {
         let colors = document.querySelectorAll('.color')
         colors.forEach(col => {
@@ -91,7 +193,7 @@
         col.addEventListener("click", () => {
             removeColor()
             col.classList.add('selected-color')
-            document.querySelector('#txtColor').value=col.textContent;
+            document.querySelector('#txtColor').value = col.textContent;
         })
     })
 
@@ -101,7 +203,7 @@
         size.addEventListener("click", () => {
             removeSize()
             size.classList.add('selected-size')
-            document.querySelector('#txtSize').value=size.textContent;
+            document.querySelector('#txtSize').value = size.textContent;
         })
     })
 

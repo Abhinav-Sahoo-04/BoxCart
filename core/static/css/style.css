@@ -745,6 +745,9 @@ select:active {
   background-color: var(--black);
   color: var(--white);
 }
+.review-count{
+  margin-bottom: 20px;
+}
 .product .product-info button {
   padding: 10px 50px;
   margin-top: 20px;
@@ -758,25 +761,113 @@ select:active {
   background-color: var(--black);
 }
 .comments-section {
-  height: 40vh;
+  height: fit-content;
   width: 100%;
   background-color: var(bg);
 }
+.comments-section form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  gap:10px
+}
+.comment-rating > input{
+  display: none;
+}
+.comment-rating{
+  display: inline-block;
+  border: 0;
+  width: fit-content;
+}
+.comment-rating > label{
+  float: right;
+  color: #ddd;
+}
+.comment-rating > input:checked ~ label{
+    color: #ffb503;
+}
+.comment-rating > label::before{
+  display: inline-block;
+  font-size: 1.1rem;
+  content: "\f005";
+  font-family: FontAwesome;
+  margin: 0;
+  padding: 0.3rem;
+  cursor: pointer;
+}
+.comment-rating  .half::before{
+  content: "\f089";
+  position: absolute;
+  padding-right: 0;
+}
+.comment-rating input:checked ~ label,
+.comment-rating label:hover,
+.comment-rating label:hover ~ label{
+  color: #ffb503;
+}
+
+.comments-section form label {
+    font-size: 14px;
+    font-weight: 700;
+}
+.comments-section form input {
+    height: 40px;
+    padding: 10px;
+    border-radius: 4px;
+  border: 1px solid black;
+
+}
+.comments-section form textarea {
+    height: 100px;
+    border-radius: 4px;
+
+    padding: 10px;
+}
+.comments-section form button {
+    padding: 10px 50px;
+    width: fit-content;
+    background-color: #9929ea;
+    color: white;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 14px;
+
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+.comments-section form button:hover {
+
+  background-color: royalblue;
+  box-shadow:
+    rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  transition: 0.3s ease;
+  
+}
+
 .comments-section h1 {
   font-size: var(--font-30);
-  line-height: 3;
+  line-height: 2;
+}
+.comments{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 .comment {
   height: fit-content;
-  width: 80%;
+  width: 100%;
   padding: 10px 20px;
   background-color: white;
   border-radius: 5px;
+  box-shadow:
+    rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 }
 .comment .comment-info {
   width: 100%;
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 }
 .comment .comment-info img {
   height: 30px;
@@ -790,7 +881,8 @@ select:active {
   margin-left: auto;
 }
 .comment .comment-desc {
-  padding-block: 20px;
+  padding-block: 30px;
+  margin-top: 10px;
 }
 .stock-not-available {
   padding: 10px 20px;

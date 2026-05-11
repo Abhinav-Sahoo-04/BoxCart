@@ -602,9 +602,14 @@
   width: 100%;
   padding: 5px;
 }
+.product form{
+  width: 100%;
+  padding: 5px;
+}
 .product .product-info h1{
   font-size: var(--font-40);
   margin-bottom: 10px;
+  width: 100%;
 }
 .product .product-info strong{
   font-size: var(--font-24);
