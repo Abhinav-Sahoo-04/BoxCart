@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="payment-container">
+    <h3>Review your order and make payment</h3>
+    <div class="payment-wrap">
+        <div class="payment-details">
+            <div class="payment-card">
+                <div class="card-head">Billing Address</div>
+                <div class="card-det">
+                    <p>{{order.first_name}} {{order.last_name}}</p>
+                    <p>Phone Number:-{{order.phone}} </p>
+                    <strong>Address</strong>
+                    <p>{{order.address_line_1}} {{order.address_line_2}} </p>
+                    <p>{{order.city}},{{order.state}},{{order.country}}</p>
+                    {% if order.order_note %}
+                    <strong>Order Note:-</strong>
+                    <p>{{order.order_note}}</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="payment-card">
+                <div class="card-head">Payment Method</div>
+                <div class="card-det">PayPal</div>
+
+
+            </div>
+            <div class="payment-card">
+                <div class="card-head">Order Review</div>
+                <div class="card-det">
+                    {% for i in cart_item %}
+                    <div class="product-checkout-review">
+                        <div class="r-p-product">
+                            <img src="{{ i.product.product_image.url }}" alt="">
+                            <div class="product-i">
+                                <h4>{{ i.product.product_name }}</h4>
+                                {% if i.variation.all %}
+                                <span>
+                                    {% for item in i.variation.all %}
+                                    <small>{{ item.variation_category }} : {{ item.variation_value }}</small><br>
+                                    {% endfor %}
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="r-p-quantity"><small>{{ i.quantity }}</small></div>
+                        <div class="r-p-price"><small>{{i.sub_total}}</small></div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+        <div class="payment-confirms">
+            <div class="payment-total">
+                <div class="price-det"><strong>Total Price : </strong><strong>{{total}}$</strong></div>
+                <div class="price-det"><strong>Tax : </strong><strong>{{tax}}$</strong></div>
+                <div class="price-det det-b"><strong>Grand Total : </strong><strong>{{grand_total}}$</strong></div>
+                <img src="{% static 'images/payment2.png' %}" alt="">
+                <div id="paypal-button-container"></div>
+                <p id="result-message"></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script
+    src="https://www.paypal.com/sdk/js?client-id=AWW9DdLHsjhz5Xnt2v5FnteJNdB-zea9c9yWmbmp7JU2zs2muaE5B19kkWNc5EujZKG8nD2OoxPUA-5E&currency=USD"></script>
+<script>
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var url = "{% url 'payment' %}"
+    var csrftoken = getCookie('csrftoken');
+    var orderID = '{{order.order_number}}'
+    var payment_method = 'payPal'
+    var redirect_url="{% url 'order_complete' %}"
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const paypalButtons = window.paypal.Buttons({
+
+            style: {
+                shape: "rect",
+                layout: "vertical",
+                color: "blue",
+                label: "paypal",
+            },
+
+            createOrder: function (data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: "{{grand_total}}"
+                        }
+                    }]
+                });
+            },
+
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(function (details) {
+                    sendData()
+                    function sendData() {
+                        fetch(url, {
+                            method: "POST",
+                            headers: {
+                                'Content-type': "application/json",
+                                'X-CSRFToken': csrftoken,
+
+                            },
+                            body: JSON.stringify({
+                                orderID: orderID,
+                                transID: details.id,
+                                payment_method: payment_method,
+                                status: details.status,
+                            },)
+                        })
+                            .then((response) => response.json())
+                            .then((data) => {
+                                console.log(data);
+                                console.log("Tracsaction sucsess !");
+                                window.location.href=redirect_url+'?order_number='+data.Order_ID+'&payment_id='+data.Trans_ID
+                            }
+                            )
+                    }
+                });
+            },
+
+            onError: function (err) {
+                console.error(err);
+            }
+
+        });
+
+        paypalButtons.render("#paypal-button-container");
+
+    });
+</script>
+
+<!-- <script src="{% static 'scripts/app.js' %}" ></script> -->
+
+{% endblock %}

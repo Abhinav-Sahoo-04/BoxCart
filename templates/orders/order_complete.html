@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="order_complete">
+    <div class="order-comp-logo-container">
+        <i class="ri-check-line"></i>
+    </div>
+    <div class="order-complete-details">
+        <div class="order-comp-det-top">
+            <div class="order-comp-top-left">
+                <div class="order-comp-logo">
+                    <span>B</span>
+                    <img src="{% static 'images/icons/cart-black.png' %}" alt="">
+                    <span>X</span>
+                    <p>Cart</p>
+                </div>
+                <div class="order-comp-status-info">
+                    <p><Strong>Order ID :</Strong>#{{orderID}}</p>
+                    <p><Strong>Transaction ID :</Strong>#{{transID}}</p>
+                    <p><Strong>Order Date :</Strong>{{order.created_at}}</p>
+                    <p><Strong>Status :</Strong>{{payment.status}}</p>
+                </div>
+            </div>
+            <div class="order-comp-top-right">
+                <strong>Invoised To </strong>
+                <p>{{order.full_name}}</p>
+                <p>{{order.address_line_1}} {{order.address_line_2}}</p>
+                <p>{{order.city}},{{order.state}}</p>
+                <p>{{order.country}}</p>
+            </div>
+        </div>
+        <div class="order-comp-det-bottom">
+            <div class="order-comp-review">
+                <div class="order-comp-desc">Products</div>
+                <div class="order-comp-qnt">Qnt</div>
+                <div class="order-comp-price">Price</div>
+            </div>
+            {% for item in orderproduct %}
+            <div class="order-comp-review">
+                <div class="order-comp-desc-p">{{item.product}}</div>
+                <div class="order-comp-qnt-p">{{item.quantity}}</div>
+                <div class="order-comp-price-p">{{item.product_price}}</div>
+            </div>
+            {% endfor %}
+            <div class="order-comp-review">
+                <div class="order-comp-sub-total">Sub Total :</div>
+                <div class="order-comp-sub-amount">${{subtotal}} USD</div>
+            </div>
+            <div class="order-comp-review">
+                <div class="order-comp-tax-total">Tax :</div>
+                <div class="order-comp-tax-amount">${{order.tax}}</div>
+            </div>
+            <div class="order-comp-review">
+                <div class="order-comp-tax-total">Grand Total :</div>
+                <div class="order-comp-tax-amount">${{order.order_total}}</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

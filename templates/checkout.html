@@ -2,18 +2,18 @@
 {% load static %}
 {% block content %}
 <title>{{title}}</title>
-<form class="checkout-container" action="#" method="POST">
+<form class="checkout-container" action="{% url 'place_order' %}" method="POST">
     {% csrf_token %}
     <div  class="checkout-form">
         <h3>Billing Address</h3>
         <div class="form-grp-wrap">
             <div class="form-grp">
-                <label for="first_name">Firts name</label>
+                <label for="first_name">Firts name<span style="color: red; font-size: 16px;vertical-align:middle; " > *</span></label>
                 <input type="text" placeholder="Enter your first name" id="fisrt_name" name="first_name" required>
             </div>
             <div class="form-grp">
                 <label for="last_name">Last name</label>
-                <input type="text" placeholder="Enter your last name" id="last_name" name="last_name" required>
+                <input type="text" placeholder="Enter your last name" id="last_name" name="last_name" >
             </div>
         </div>
         <div class="form-grp-whole">
@@ -22,15 +22,15 @@
         </div>
         <div class="form-grp-whole">
             <label for="phone_number">Phone Number</label>
-            <input type="text" placeholder="Enter your Phone numberS " required id="phone_number" name="phone_number">
+            <input type="text" placeholder="Enter your Phone numberS " required id="phone_number" name="phone">
         </div>
         <div class="form-grp-whole">
             <label for="add1">Address lane 1</label>
-            <input type="text" placeholder="Enter your Address 1 " required id="add1" name="add1">
+            <input type="text" placeholder="Enter your Address 1 " required id="add1" name="address_line_1" >
         </div>
         <div class="form-grp-whole">
             <label for="add2">Address lane 2</label>
-            <input type="text" placeholder="Enter your Address 2 " required id="add2" name="add2">
+            <input type="text" placeholder="Enter your Address 2 "  id="add2" name="address_line_2">
         </div>
         <div class="form-grp-wrap">
             <div class="form-grp-3">
@@ -48,8 +48,7 @@
         </div>
         <div class="form-grp">
             <label for="note">Order Note</label>
-            <textarea name="note" id="note"
-                placeholder="If You have any additional requirment , mention here !"></textarea>
+            <textarea name="order_note" id="note" placeholder="If You have any additional requirment , mention here !"></textarea>
         </div>
     </div>
     <div class="checkout-review">
@@ -83,5 +82,4 @@
         </div>
     </div>
 </form>
-
 {% endblock %}
