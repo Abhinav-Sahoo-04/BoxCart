@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<section class="dashboard-container">
+    {% include 'alerts.html' %}
+    <div class="dashboard-wrap">
+        <div class="dashboard">
+            {% include 'account/dashboard_sidebar.html' %}
+            <div class="dash-content">
+                <span><strong>My Order history</strong></span>
+                <div class="product-review header-o">
+                   <div class="order-id"><strong>Order #</strong></div>
+                   <div class="order-name"><strong>Billing Name</strong></div>
+                   <div class="order-phone"><strong>Phone</strong></div>
+                   <div class="order-total"><strong>Order Total</strong></div>
+                   <div class="order-date"><strong>Date</strong></div>
+                </div>
+                {% if orders %}
+                {% for order in orders %}
+                <div class="product-review data-o">
+                   <div class="order-id"><strong>{{order.order_number}}</strong></div>
+                   <div class="order-name"><strong>{{order.full_name}}</strong></div>
+                   <div class="order-phone"><strong>{{order.phone}}</strong></div>
+                   <div class="order-total"><strong>{{order.order_total}}</strong></div>
+                   <div class="order-date"><strong>{{order.created_at}}</strong></div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="p-msg">Order history is empty</p>
+                {% endif %}
+                
+            
+                
+                
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,9 +1,10 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render,get_object_or_404
 import requests
 from cart.models import Cart, CartItem
 from cart.views import _cart_id
-from .forms import RegistrationForm
-from .models import Account
+from .forms import RegistrationForm,UserForm,ProfileForm
+from .models import Account,UserProfile
+from orders.models import Order
 from django.contrib import messages
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
@@ -91,6 +92,14 @@ def register(request):
             user.phone_number=phone_number
             user.set_password(password)
             user.save()
+
+            # Creating user profile
+            profile=UserProfile()
+            profile.user_id=user.id
+            profile.profile_picture='default/default.png'
+            profile.save()
+
+
             # USER verification
             current_site=get_current_site(request)
             mail_subject="Activate your account"
@@ -137,7 +146,14 @@ def activate(request,uidb64,token):
 
 @login_required(login_url='login')
 def dashboard(request):
-    return render(request,'account/dashboard.html')
+    profile=get_object_or_404(UserProfile,user=request.user)
+    orders=Order.objects.filter(user_id=request.user.id,is_ordered=True).order_by('-created_at')
+    order_count=orders.count()
+    context={
+        'order_count':order_count,
+        'profile':profile,
+    }
+    return render(request,'account/dashboard.html',context)
 
 
 def reset_password(request):
@@ -195,3 +211,58 @@ def resetPasswordForm(request):
             messages.error(request,"password do not match")
             return redirect('resetPasswordForm')
     return render(request,'account/resetPasswordForm.html')
+
+def my_orders(request):
+
+    orders = Order.objects.filter(
+        user=request.user,
+        is_ordered=True
+    ).order_by('-created_at')
+
+    context = {
+        'orders': orders
+    }
+
+    return render(request, 'account/my_orders.html', context)
+
+@login_required(login_url='login')
+def edit_profile(request):
+    profile=get_object_or_404(UserProfile,user=request.user)
+    if request.method=='POST':
+        user_form=UserForm(request.POST,instance=request.user)
+        profile_form=ProfileForm(request.POST,request.FILES,instance=profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request,"Your profile has been updated")
+            return redirect('edit_profile')
+    else:
+        user_form=UserForm(instance=request.user)
+        profile_form=ProfileForm(instance=profile)
+    context={
+        'profile':profile,
+        'user_form':user_form,
+        'profile_form':profile_form,
+    }
+    return render(request,'account/edit_profile.html',context)
+
+@login_required(login_url='login')
+def edit_password(request):
+    if request.method=='POST':
+        current_password=request.POST['current_password']
+        new_password=request.POST['new_password']
+        confirm_password=request.POST['confirm_password']
+        if new_password==confirm_password:
+            user=Account.objects.get(username__exact=request.user.username)
+            sucess=user.check_password(current_password)
+            if sucess:
+                user.set_password(new_password)
+                user.save()
+                messages.success(request,"Password has been updated")
+            else:
+                messages.error(request,"Enter valid password")
+        else:
+            messages.success(request,"Password do not match")
+            
+
+    return render(request,'account/edit_password.html')

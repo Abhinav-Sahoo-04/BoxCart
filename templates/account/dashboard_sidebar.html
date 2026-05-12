@@ -1,0 +1,9 @@
+<div class="dash-menu">
+    <div>
+        <a class="dash-links {% if '/account/' == request.path %}active {% endif %}" href="{% url 'dashboard' %}">Dashboard</a>
+        <a class="dash-links {% if '/my_orders' in request.path %}active {% endif %}" href="{% url 'my_orders' %}">My Orders</a>
+        <a class="dash-links {% if '/edit_profile' in request.path %}active {% endif %}" href="{% url 'edit_profile' %}">Edit Profile</a>
+        <a class="dash-links {% if '/edit_password' in request.path %}active {% endif %}" href="{% url 'edit_password' %}">Change Password</a>
+    </div>
+    <a href="{% url 'logout' %}" id="dash-logout">Logout <i class="ri-shut-down-line"></i></a>
+</div>

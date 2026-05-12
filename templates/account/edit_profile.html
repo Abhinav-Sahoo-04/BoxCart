@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<section class="dashboard-container">
+    {% include 'alerts.html' %}
+    <div class="dashboard-wrap">
+        <div class="dashboard">
+            {% include 'account/dashboard_sidebar.html' %}
+            <div class="dash-content">
+                <span><strong>Edit Profile</strong></span>
+                <form class="edit-profile" method="POST" enctype="multipart/form-data" action="{%  url 'edit_profile' %}">
+                    {% csrf_token %}
+                    <div class="edit-continer">
+                        <div class="edit-form-grp">
+                            <label for="last_name">Profile Picture</label>
+                            <img class="profile-pic" src="{{profile.profile_picture.url}}" alt="">
+                        </div>
+                    </div>
+                    <div class="edit-continer">
+                        <div class="edit-form-grp">
+                            <label for="first_name">First Name</label>
+                            {{user_form.first_name}}
+                        </div>
+                        <div class="edit-form-grp">
+                            <label for="last_name">Last Name</label>
+                            {{user_form.last_name}}
+                        </div>
+                    </div>
+                    <div class="edit-continer">
+                        <div class="edit-form-grp">
+                            <label for="profile_picture">Profile Picture</label>
+                            {{profile_form.profile_picture}}
+                        </div>
+                        <div class="edit-form-grp">
+                            <label for="phone">Phone Number</label>
+                            {{user_form.phone_number}}
+                        </div>
+                    </div>
+                    <div class="edit-form-grp edit-add">
+                        <label for="address_line_1">Address Line 1</label>
+                        {{profile_form.address_line_1}}
+                    </div>
+                    <div class="edit-form-grp edit-add">
+                        <label for="address_line_2">Address Line 2</label>
+                        {{profile_form.address_line_2}}
+                    </div>
+                    <div class="edit-continer edit-loc">
+                        <div class="edit-form-grp">
+                            <label for="city">City</label>
+                            {{profile_form.city}}
+                        </div>
+                        <div class="edit-form-grp">
+                            <label for="state">State</label>
+                            {{profile_form.state}}
+                        </div>
+                        <div class="edit-form-grp">
+                            <label for="country">Country</label>
+                            {{profile_form.country}}
+                        </div>
+                    </div>
+                    <button type="submit">Save Changes</button>
+                </form>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -5,122 +5,27 @@
     {% include 'alerts.html' %}
     <div class="dashboard-wrap">
         <div class="dashboard">
-            <div class="dash-menu">
-                <div>
-                    <a href="#">My order history</a>
-                    <a href="#">Transactions</a>
-                    <a href="#">Return and refund</a>
-                    <a href="#">Settings</a>
-                    <a href="#">My sellings items</a>
-                    <a href="#">Recived orders</a>
-                </div>
-                <a href="{% url 'logout' %}" id="dash-logout">Logout <i class="ri-shut-down-line"></i></a>
-            </div>
+            {% include 'account/dashboard_sidebar.html' %}
             <div class="dash-content">
-                <span><strong>Order ID : 2342434744</strong><p>Order date : 14 July 2024</p></span>
-                <div class="order-details-container">
-                    <div class="order-details">
-                        <strong>Order details</strong>
-                        <div class="details-info">
-                            <p>Name</p>
-                            <p>Phone number:-789456123 , Email :-abhinav123@gamil.com</p>
-                            <p>address</p>
-                            <p>P.O.BOX :</p>
-                        </div>
+                <span>Logged in as<strong>{{user.full_name}} </strong> <img src="{{profile.profile_picture.url}}" alt=""></span>
+                <div class="dash-card-container">
+                    <div class="dash-card">   
+                        <strong>Order count</strong>
+                        <h1>{{order_count}}</h1>
+                        <a href="{% url 'my_orders' %}">View Orders</a>
                     </div>
-                    <div class="payment-details">
-                        <strong>Payment details</strong>
-                        <div class="details-info">
-                            <p>payment mode ***764</p>
-                            <p>Subtotal : $239</p>
-                            <p>Shiping charge : $50</p>
-                            <h4>Total : $350</h4>
-                        </div>
+                    <div class="dash-card dash-add">
+                        <strong>Address</strong>
+                        <p>dhcbasdhcashdca</p>
+                        <p>dhcbasdhcashdca...</p>
+                        
+                        <a href="{% url 'edit_profile' %}">Change Address</a>
                     </div>
-                </div>
-                <div class="product-review">
-                    <div class="review-img"><img src="{% static 'images/icons/cart-black.png' %}" alt=""></div>
-                    <div class="review-info">
-                        <p>
-                            product name
-                        </p>
-                        <strong>USD 30</strong>
-                    </div>
-                    <div class="review-seller">
-                        <p>Seller</p>
-                        <strong>Abhinav Sahoo</strong>
-                    </div>
-                    <div class="review-options">
-                        <a href="#" class="track">Track order</a>
-                        <a href="#" class="details">Details</a>
-                    </div>
-                </div>
-                <div class="product-review">
-                    <div class="review-img"><img src="{% static 'images/icons/cart-black.png' %}" alt=""></div>
-                    <div class="review-info">
-                        <p>
-                            product name
-                        </p>
-                        <strong>USD 30</strong>
-                    </div>
-                    <div class="review-seller">
-                        <p>Seller</p>
-                        <strong>Abhinav Sahoo</strong>
-                    </div>
-                    <div class="review-options">
-                        <a href="#" class="track">Track order</a>
-                        <a href="#" class="details">Details</a>
-                    </div>
-                </div>
-                <div class="product-review">
-                    <div class="review-img"><img src="{% static 'images/icons/cart-black.png' %}" alt=""></div>
-                    <div class="review-info">
-                        <p>
-                            product name
-                        </p>
-                        <strong>USD 30</strong>
-                    </div>
-                    <div class="review-seller">
-                        <p>Seller</p>
-                        <strong>Abhinav Sahoo</strong>
-                    </div>
-                    <div class="review-options">
-                        <a href="#" class="track">Track order</a>
-                        <a href="#" class="details">Details</a>
-                    </div>
-                </div>
-                <div class="product-review">
-                    <div class="review-img"><img src="{% static 'images/icons/cart-black.png' %}" alt=""></div>
-                    <div class="review-info">
-                        <p>
-                            product name
-                        </p>
-                        <strong>USD 30</strong>
-                    </div>
-                    <div class="review-seller">
-                        <p>Seller</p>
-                        <strong>Abhinav Sahoo</strong>
-                    </div>
-                    <div class="review-options">
-                        <a href="#" class="track">Track order</a>
-                        <a href="#" class="details">Details</a>
-                    </div>
-                </div>
-                <div class="product-review">
-                    <div class="review-img"><img src="{% static 'images/icons/cart-black.png' %}" alt=""></div>
-                    <div class="review-info">
-                        <p>
-                            product name
-                        </p>
-                        <strong>USD 30</strong>
-                    </div>
-                    <div class="review-seller">
-                        <p>Seller</p>
-                        <strong>Abhinav Sahoo</strong>
-                    </div>
-                    <div class="review-options">
-                        <a href="#" class="track">Track order</a>
-                        <a href="#" class="details">Details</a>
+                    <div class="dash-card dash-user">
+                        <strong>{{user.first_name}}</strong>
+                        <p>Email ID:{{user.email}}</p>
+                        <p>Phone : {{user.phone_number}}</p>
+                        <a href="{% url 'edit_profile' %}">Edit Profile</a>
                     </div>
                 </div>
             </div>
