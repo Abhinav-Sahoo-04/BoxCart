@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-9cfib#=nsn(zk1*xe!il6_@8$+^f9qe&7(6=k(b*^z3ih((e&@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['boxcart.onrender.com']
 
 
 # Application definition
