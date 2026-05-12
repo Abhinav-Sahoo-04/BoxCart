@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-9cfib#=nsn(zk1*xe!il6_@8$+^f9qe&7(6=k(b*^z3ih((e&@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['boxcart.onrender.com']
+ALLOWED_HOSTS = ['boxcart-1.onrender.com']
 
 
 # Application definition
